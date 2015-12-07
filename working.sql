@@ -64,5 +64,25 @@ SELECT name, category, MAX(downloads) FROM fake_apps GROUP BY category;
 SELECT name, category, MIN(downloads) FROM fake_apps GROUP BY category;
 SELECT AVG(downloads) FROM fake_apps;
 
+--round 2 decimals average
+SELECT price, ROUND(AVG(downloads), 2) FROM fake_apps GROUP BY price;
+SELECT price, ROUND(AVG(downloads)) FROM fake_apps GROUP BY price;
+    
 --return number of free table_names 
 SELECT COUNT(*) FROM table_name WHERE price = 0;
+
+--join 
+SELECT * FROM albums
+JOIN artists ON 
+albums.artist_id = artists.id;
+
+SELECT
+  albums.name AS 'Album',
+  albums.year,
+  artists.name AS 'Artist'
+FROM
+  albums
+JOIN artists ON
+  albums.artist_id = artists.id
+WHERE
+  albums.year > 1980;
