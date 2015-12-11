@@ -86,3 +86,16 @@ JOIN artists ON
   albums.artist_id = artists.id
 WHERE
   albums.year > 1980;
+
+--update wp tables to use with local mamp server
+update wp_options set option_value="<WordPress Address (URL)>"
+where option_name="siteurl";
+
+update wp_options set option_value="<Site Address (URL)>"
+where option_name="home";
+
+update wp_options set option_value="http://exampledev.com"
+where option_name="siteurl";
+
+update wp_options set option_value="http://exampledev.com"
+where option_name="home";
