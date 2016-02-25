@@ -87,19 +87,11 @@ JOIN artists ON
 WHERE
   albums.year > 1980;
 
---update wp tables to use with local mamp server
-update wp_options set option_value="<WordPress Address (URL)>"
-where option_name="siteurl";
+-- /applications/MAMP/library/bin/mysql -u root -p wordpress_db < /Applications/MAMP/htdocs/backupDB.sql
 
-update wp_options set option_value="<Site Address (URL)>"
-where option_name="home";
-
-update wp_options set option_value="http://exampledev.com"
-where option_name="siteurl";
-
-update wp_options set option_value="http://exampledev.com"
-where option_name="home";
-
+-- update wp tables to use with local mamp server
+update wp_options set option_value="http://exampledev.com" where option_name="siteurl";
+update wp_options set option_value="http://exampledev.com" where option_name="home";
 UPDATE wp_options SET option_value = replace(option_value, 'http://olddomain.com', 'http://newdomain.com') WHERE option_name = 'home' OR option_name = 'siteurl';
 UPDATE wp_posts SET guid = replace(guid, 'http://olddomain.com','http://newdomain.com');
 UPDATE wp_posts SET post_content = replace(post_content, 'http://olddomain.com', 'http://newdomain.com');
