@@ -89,6 +89,9 @@ WHERE
 
 -- /applications/MAMP/library/bin/mysql -u root -p wordpress_db < /Applications/MAMP/htdocs/backupDB.sql
 
+-- find and return wp post ids from post meta that matches a string 
+SELECT post_id FROM wp_postmeta WHERE meta_value like '%STRING%';
+
 -- update wp tables to use with local mamp server
 update wp_options set option_value="http://exampledev.com" where option_name="siteurl";
 update wp_options set option_value="http://exampledev.com" where option_name="home";
