@@ -11,10 +11,10 @@ DELETE FROM deletes rows from a table.
 INSERT INTO table_name (id, name, age) VALUES (1, 'Rob Benz', 21);
 
 --change table value
-UPDATE table_name 
+UPDATE table_name
 SET age = 22 WHERE id =1;
 
---add new column 
+--add new column
 ALTER TABLE table_name ADD COLUMN col_name TEXT;
 
 --delete empty somthing
@@ -50,7 +50,7 @@ GROUP BY price;
 SELECT price, COUNT(*) FROM fake_apps
 WHERE downloads > 20000 GROUP BY price;
 
---add up 
+--add up
 SELECT SUM(downloads) FROM fake_apps;
 
 --calculate total number of downloads
@@ -67,13 +67,13 @@ SELECT AVG(downloads) FROM fake_apps;
 --round 2 decimals average
 SELECT price, ROUND(AVG(downloads), 2) FROM fake_apps GROUP BY price;
 SELECT price, ROUND(AVG(downloads)) FROM fake_apps GROUP BY price;
-    
---return number of free table_names 
+
+--return number of free table_names
 SELECT COUNT(*) FROM table_name WHERE price = 0;
 
---join 
+--join
 SELECT * FROM albums
-JOIN artists ON 
+JOIN artists ON
 albums.artist_id = artists.id;
 
 SELECT
@@ -89,8 +89,50 @@ WHERE
 
 -- /applications/MAMP/library/bin/mysql -u root -p wordpress_db < /Applications/MAMP/htdocs/backupDB.sql
 
--- find and return wp post ids from post meta that matches a string 
+-- find and return wp post ids from post meta that matches a string
 SELECT post_id FROM wp_postmeta WHERE meta_value like '%STRING%';
+
+SELECT p.post_id,
+       p.post_date,
+       pm.custom_field_key_1,
+       pm.custom_field_key_2,
+       pm.custom_field_key_3
+FROM wp_posts p
+   INNER JOIN wp_postmeta pm
+       ON p.post_id = pm.post_id
+WHERE p.post_type = 'custom_post_type'
+   AND p.post_status = 'publish'
+
+-- find all the post ids where regular price string is greater than price string
+  SELECT
+     price.post_id,
+     r_price,
+     p_price
+   FROM
+     (
+       SELECT
+         post_id,
+         CAST(meta_value as SIGNED INTEGER) r_price
+       FROM
+         wp_postmeta
+       WHERE
+         meta_key = '_regular_price'
+     ) regular_price,
+     (
+       SELECT
+         post_id,
+         CAST(meta_value as SIGNED INTEGER) p_price
+       FROM
+         wp_postmeta
+       WHERE
+         meta_key = '_price'
+     ) price
+   WHERE
+     price.post_id = regular_price.post_id
+     and r_price > p_price
+
+-- update all short descriptions to a new string for products - kind of handy if eveyrhting is the same string
+UPDATE wp_posts SET post_excerpt = 'New short description text.' WHERE post_type = 'product'
 
 -- update wp tables to use with local mamp server
 update wp_options set option_value="http://exampledev.com" where option_name="siteurl";
