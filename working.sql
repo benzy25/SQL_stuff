@@ -89,6 +89,9 @@ WHERE
 
 -- /applications/MAMP/library/bin/mysql -u root -p wordpress_db < /Applications/MAMP/htdocs/backupDB.sql
 
+-- change table names 
+ALTER TABLE exampletable RENAME TO new_table_name;
+
 -- find and return wp post ids from post meta that matches a string
 SELECT post_id FROM wp_postmeta WHERE meta_value like '%STRING%';
 
@@ -141,3 +144,8 @@ UPDATE wp_options SET option_value = replace(option_value, 'http://olddomain.com
 UPDATE wp_posts SET guid = replace(guid, 'http://olddomain.com','http://newdomain.com');
 UPDATE wp_posts SET post_content = replace(post_content, 'http://olddomain.com', 'http://newdomain.com');
 UPDATE wp_postmeta SET meta_value = replace(meta_value, 'http://olddomain.com', 'http://newdomain.com');
+
+
+SELECT LENGTH(option_value),option_name FROM wp_options WHERE autoload='yes' ORDER BY length(option_value) DESC LIMIT 20;
+
+DELETE FROM `wp_options` WHERE `option_name` LIKE ('%\_transient\_%');
