@@ -149,3 +149,10 @@ UPDATE wp_postmeta SET meta_value = replace(meta_value, 'http://olddomain.com', 
 SELECT LENGTH(option_value),option_name FROM wp_options WHERE autoload='yes' ORDER BY length(option_value) DESC LIMIT 20;
 
 DELETE FROM `wp_options` WHERE `option_name` LIKE ('%\_transient\_%');
+
+-- missing images from post_type=product
+select ID 
+FROM wp_posts 
+WHERE ID 
+NOT IN (select post_id from wp_postmeta WHERE meta_key="_thumbnail_id") 
+AND post_type="product"
